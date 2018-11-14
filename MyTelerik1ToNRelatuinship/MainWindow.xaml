@@ -1,0 +1,57 @@
+﻿<Window x:Class="MyTelerik1ToNRelatuinship.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:local="clr-namespace:MyTelerik1ToNRelatuinship"
+        xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" 
+        mc:Ignorable="d"
+        Title="MyTelerik1ToNRelatuinship" Height="350" Width="525">
+    <Grid>
+
+        <telerik:RadEntityFrameworkDataSource Name="PeopleBooksEntityFrameworkDataSource" QueryName="People">
+            <telerik:RadEntityFrameworkDataSource.RelatedObjects>
+                <sys:String>Books</sys:String>
+            </telerik:RadEntityFrameworkDataSource.RelatedObjects>
+        </telerik:RadEntityFrameworkDataSource>
+
+        <telerik:RadGridView ItemsSource="{Binding DataView,ElementName=PeopleBooksEntityFrameworkDataSource}" RowIndicatorVisibility="Collapsed" AutoGenerateColumns="False" AddingNewDataItem="PeopleBooksGrid_AddingNewDataItem" RowEditEnded="PeopleBooksGrid_RowEditEnded" Deleted="PeopleBooksGrid_Deleted" Margin="10,10,90,10">
+            <telerik:RadGridView.Columns>
+                <telerik:GridViewToggleRowDetailsColumn />
+                <telerik:GridViewDataColumn Header="Id"
+											DataMemberBinding="{Binding Id}" />
+                <telerik:GridViewDataColumn Header="First Name"
+											DataMemberBinding="{Binding FirstName}" />
+                <telerik:GridViewDataColumn Header="Last Name"
+											DataMemberBinding="{Binding LastName}" />
+            </telerik:RadGridView.Columns>
+            <telerik:RadGridView.RowDetailsTemplate>
+                <DataTemplate>
+
+                    <telerik:RadGridView ItemsSource="{Binding Books}"
+										 RowIndicatorVisibility="Collapsed"
+										 AutoGenerateColumns="False"
+										 CanUserFreezeColumns="False"
+										 CanUserResizeColumns="False"
+										 ShowGroupPanel="False">
+                        <telerik:RadGridView.Columns>
+                            <telerik:GridViewDataColumn Header="Id"
+														DataMemberBinding="{Binding Id}" />
+                            <telerik:GridViewDataColumn Header="PersonId"
+														DataMemberBinding="{Binding PersonId}" />
+                            <telerik:GridViewDataColumn Header="Title"
+														DataMemberBinding="{Binding Title}" />
+                            <telerik:GridViewDataColumn Header="Author"
+														DataMemberBinding="{Binding Author}" />
+                        </telerik:RadGridView.Columns>
+                    </telerik:RadGridView>
+
+                </DataTemplate>
+            </telerik:RadGridView.RowDetailsTemplate>
+
+        </telerik:RadGridView>
+        <Button Content="Reload" HorizontalAlignment="Right" Margin="0,0,10,35" VerticalAlignment="Bottom" Width="75" Click="ButtonReload_Click"/>
+        <Button Content="Close" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="ButtonClose_Click"/>
+    </Grid>
+</Window>
